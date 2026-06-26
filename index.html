@@ -1,528 +1,2133 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"
     />
-
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
     <title>Portfolio | Samuel Dugger</title>
 
     <style>
+      :root {
+        --bg-primary: #070b16;
+        --bg-surface: #0c1121;
+        --bg-elevated: #111827;
+        --border: #1e2d4a;
+        --border-light: #263554;
+        --accent: #6366f1;
+        --accent-glow: rgba(99, 102, 241, 0.25);
+        --accent-hover: #818cf8;
+        --cyan: #22d3ee;
+        --text-primary: #f1f5f9;
+        --text-secondary: #94a3b8;
+        --text-muted: #64748b;
+        --radius: 12px;
+        --radius-lg: 18px;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
       body {
         font-family: "Inter", sans-serif;
-        background: radial-gradient(circle at 20% 20%, #1a1b2f, #0e0f1a);
-        color: #d6d6f2;
-        line-height: 1.6;
+        background-color: var(--bg-primary);
+        color: var(--text-secondary);
+        line-height: 1.7;
+        overflow-x: hidden;
       }
+
       body::before {
         content: "";
         position: fixed;
         inset: 0;
         background: url("https://grainy-gradients.vercel.app/noise.svg");
-        opacity: 0.035;
+        opacity: 0.03;
         pointer-events: none;
         z-index: 0;
       }
 
-      header,
-      footer {
-        background-color: #121320;
-        color: #d6d6f2;
-        border-bottom: 1px solid #292b45;
+      .ambient {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(120px);
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.12;
       }
-
-      .hero {
-        background: linear-gradient(to right, #2a2454, #1a1b2f);
-        color: #e0defb;
-        padding: 100px 0;
+      .ambient-1 {
+        width: 600px;
+        height: 600px;
+        background: var(--accent);
+        top: -200px;
+        left: -200px;
       }
-
-      .btn-accent {
-        background-color: #8b6ee2;
-        color: white;
-        border: none;
-        transition: background 0.3s ease;
-      }
-      .btn-accent:hover {
-        background-color: #6f57c8;
-      }
-
-      a {
-        color: #fff;
-      }
-      a:hover {
-        color: #d6d6f2;
-      }
-
-      .swiper-slide {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .swiper-slide img {
-        max-width: 80px;
-        height: auto;
-        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
-      }
-      .swiper-wrapper {
-        transition-timing-function: linear !important;
-      }
-
-      .project-card {
-        background-size: cover;
-        background-position: center;
-        border-radius: 12px;
-        overflow: hidden;
-        height: 250px;
-        display: flex;
-        align-items: flex-end;
-        padding: 20px;
-        position: relative;
-        box-shadow: 0 0 10px rgba(140, 110, 255, 0.2);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        cursor: pointer;
-      }
-      .project-card::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: rgba(10, 10, 30, 0.7);
-        z-index: 1;
-      }
-      .project-card .content {
-        position: relative;
-        z-index: 2;
-      }
-      .small-card:hover,
-      .big-card:hover {
-        transform: scale(1.01);
-        box-shadow: 0 0 15px #a86cf2;
-      }
-
-      #about {
-        background-color: #131324;
-      }
-      #skills {
-        background-color: #100f1f;
-      }
-      #education,
-      #experience {
-        background-color: #1a1a2f;
-      }
-      #portfolio {
-        background-color: #0f0f24;
+      .ambient-2 {
+        width: 400px;
+        height: 400px;
+        background: var(--cyan);
+        bottom: 0;
+        right: -100px;
       }
 
       h1,
       h2,
-      h5 {
-        color: #e0defb;
+      h3,
+      h4,
+      h5,
+      h6 {
+        color: var(--text-primary);
+        font-weight: 700;
       }
-      p,
-      small {
-        color: #b4b7d1;
+
+      .mono {
+        font-family: "JetBrains Mono", monospace;
+      }
+
+      .section-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 0.5rem;
+      }
+
+      .section-title {
+        font-size: clamp(1.75rem, 4vw, 2.5rem);
+        font-weight: 800;
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+      }
+
+      .section-title span {
+        background: linear-gradient(135deg, var(--accent), var(--cyan));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      a {
+        color: var(--accent);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      a:hover {
+        color: var(--accent-hover);
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: rgba(7, 11, 22, 0.75);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
+        padding: 0.85rem 0;
+      }
+
+      .nav-brand {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--text-primary) !important;
+        letter-spacing: -0.02em;
+        text-decoration: none;
+      }
+
+      .nav-brand span {
+        color: var(--accent);
+      }
+
+      nav a {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+        text-decoration: none;
+        padding: 0.4rem 0;
+        position: relative;
+        transition: color 0.2s;
+      }
+
+      nav a::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--accent);
+        border-radius: 2px;
+        transition: width 0.25s ease;
+      }
+
+      nav a:hover {
+        color: var(--text-primary);
+      }
+
+      nav a:hover::after {
+        width: 100%;
+      }
+
+      .hero {
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding: 5rem 0 4rem;
+        overflow: hidden;
+      }
+
+      .hero-grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(var(--border) 1px, transparent 1px),
+          linear-gradient(90deg, var(--border) 1px, transparent 1px);
+        background-size: 60px 60px;
+        mask-image: radial-gradient(
+          ellipse 80% 80% at 50% 50%,
+          black,
+          transparent
+        );
+        opacity: 0.3;
+      }
+
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(99, 102, 241, 0.12);
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        border-radius: 100px;
+        padding: 0.35rem 1rem;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.75rem;
+        color: var(--accent);
+        margin-bottom: 1.5rem;
+      }
+
+      .hero-badge .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--cyan);
+        animation: pulse-dot 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse-dot {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.4;
+          transform: scale(0.7);
+        }
+      }
+
+      .hero h1 {
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+        color: var(--text-primary);
+        margin-bottom: 1.25rem;
+      }
+
+      .hero h1 .gradient-name {
+        background: linear-gradient(135deg, var(--accent) 0%, var(--cyan) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero-sub {
+        font-size: 1.15rem;
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+      }
+
+      .hero-sub .typed-text {
+        color: var(--cyan);
+        font-weight: 600;
+      }
+
+      .cursor {
+        display: inline-block;
+        width: 0.15ch;
+        background: var(--cyan);
+        animation: blink 0.8s steps(1) infinite;
+        vertical-align: text-bottom;
+        height: 1.1em;
+        margin-left: 1px;
+      }
+
+      @keyframes blink {
+        50% {
+          background: transparent;
+        }
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 2.5rem;
+      }
+
+      .btn-primary-custom {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--accent);
+        color: #fff;
+        padding: 0.75rem 1.75rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.925rem;
+        border: none;
+        transition:
+          background 0.2s,
+          box-shadow 0.2s,
+          transform 0.15s;
+        text-decoration: none;
+      }
+
+      .btn-primary-custom:hover {
+        background: var(--accent-hover);
+        color: #fff;
+        box-shadow: 0 0 20px var(--accent-glow);
+        transform: translateY(-1px);
+      }
+
+      .btn-outline-custom {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: transparent;
+        color: var(--text-secondary);
+        padding: 0.75rem 1.75rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.925rem;
+        border: 1px solid var(--border-light);
+        transition:
+          border-color 0.2s,
+          color 0.2s,
+          transform 0.15s;
+        text-decoration: none;
+      }
+
+      .btn-outline-custom:hover {
+        border-color: var(--accent);
+        color: var(--text-primary);
+        transform: translateY(-1px);
+      }
+
+      .hero-socials {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .social-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        border: 1px solid var(--border-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-secondary);
+        font-size: 1rem;
+        transition:
+          border-color 0.2s,
+          color 0.2s,
+          background 0.2s;
+        text-decoration: none;
+      }
+
+      .social-icon:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: var(--accent-glow);
+      }
+
+      .hero-photo-wrap {
+        position: relative;
+        display: flex;
+        justify-content: center;
+      }
+
+      .hero-photo-wrap::before {
+        content: "";
+        position: absolute;
+        inset: -2px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent), var(--cyan));
+        z-index: 0;
+      }
+
+      .hero-photo-wrap img {
+        position: relative;
+        z-index: 1;
+        width: 280px;
+        height: 280px;
+        object-fit: cover;
+        object-position: center 15%;
+        border-radius: 50%;
+        border: 4px solid var(--bg-primary);
+      }
+
+      section {
+        position: relative;
+      }
+
+      #about {
+        background-color: var(--bg-surface);
+        padding: 6rem 0;
+      }
+      #skills {
+        background-color: var(--bg-primary);
+        padding: 5rem 0;
+      }
+      #education {
+        background-color: var(--bg-surface);
+        padding: 6rem 0;
+      }
+      #portfolio {
+        background-color: var(--bg-primary);
+        padding: 6rem 0;
+      }
+      #experience {
+        background-color: var(--bg-surface);
+        padding: 6rem 0;
+      }
+
+      .section-divider {
+        width: 48px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--accent), var(--cyan));
+        border-radius: 3px;
+        margin-bottom: 3rem;
+      }
+
+      .about-photo {
+        width: 260px;
+        height: 320px;
+        object-fit: cover;
+        object-position: center 10%;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border-light);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      }
+
+      .stat-badge {
+        background: var(--bg-elevated);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1rem 1.5rem;
+        text-align: center;
+      }
+
+      .stat-badge .num {
+        font-size: 1.75rem;
+        font-weight: 800;
+        color: var(--accent);
+        line-height: 1;
+      }
+
+      .stat-badge .label {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin-top: 0.25rem;
+      }
+
+      .swiper-slide {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.5rem;
+      }
+
+      .swiper-slide img {
+        width: 52px;
+        height: 52px;
+        object-fit: contain;
+        filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
+        transition: transform 0.2s;
+      }
+
+      .swiper-slide:hover img {
+        transform: scale(1.1);
+      }
+
+      .swiper-slide .skill-label {
+        font-size: 0.7rem;
+        font-weight: 500;
+        color: var(--text-muted);
+        letter-spacing: 0.04em;
+      }
+
+      .swiper-wrapper {
+        transition-timing-function: linear !important;
+      }
+
+      .card-surface {
+        background: var(--bg-elevated);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        transition:
+          border-color 0.25s,
+          box-shadow 0.25s,
+          transform 0.25s;
+      }
+
+      .card-surface:hover {
+        border-color: rgba(99, 102, 241, 0.4);
+        box-shadow: 0 8px 40px rgba(99, 102, 241, 0.15);
+        transform: translateY(-3px);
+      }
+
+      .timeline {
+        position: relative;
+        padding-left: 2rem;
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 8px;
+        bottom: 8px;
+        width: 2px;
+        background: linear-gradient(to bottom, var(--accent), var(--cyan));
+        border-radius: 2px;
+      }
+
+      .timeline-item {
+        position: relative;
+        padding-bottom: 2.5rem;
+      }
+
+      .timeline-item:last-child {
+        padding-bottom: 0;
+      }
+
+      .timeline-dot {
+        position: absolute;
+        left: -2.45rem;
+        top: 5px;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: var(--accent);
+        border: 2px solid var(--bg-surface);
+        box-shadow: 0 0 10px var(--accent-glow);
+      }
+
+      .timeline-card {
+        background: var(--bg-elevated);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1.25rem 1.5rem;
+        transition:
+          border-color 0.25s,
+          box-shadow 0.25s;
+      }
+
+      .timeline-card:hover {
+        border-color: rgba(99, 102, 241, 0.4);
+        box-shadow: 0 4px 24px rgba(99, 102, 241, 0.1);
+      }
+
+      .timeline-meta {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 0.5rem;
+        flex-wrap: wrap;
+      }
+
+      .timeline-date {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.72rem;
+        color: var(--accent);
+        background: rgba(99, 102, 241, 0.12);
+        border: 1px solid rgba(99, 102, 241, 0.25);
+        border-radius: 100px;
+        padding: 0.2rem 0.65rem;
+      }
+
+      .timeline-org {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+      }
+
+      .edu-img-card {
+        position: relative;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        height: 290px;
+        border: 1px solid var(--border);
+        transition:
+          border-color 0.3s,
+          box-shadow 0.3s,
+          transform 0.3s;
+        cursor: default;
+      }
+
+      .edu-img-card:hover {
+        border-color: rgba(99, 102, 241, 0.45);
+        box-shadow: 0 10px 40px rgba(99, 102, 241, 0.18);
+        transform: translateY(-3px);
+      }
+
+      .edu-img-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.5s ease;
+        filter: brightness(0.75);
+      }
+
+      .edu-img-card:hover img {
+        transform: scale(1.05);
+        filter: brightness(0.65);
+      }
+
+      .edu-img-card .edu-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(7, 11, 22, 0.97) 38%,
+          rgba(7, 11, 22, 0.35) 75%,
+          transparent
+        );
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 1.5rem 1.75rem;
+      }
+
+      .edu-icon-badge {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: rgba(99, 102, 241, 0.18);
+        border: 1px solid rgba(99, 102, 241, 0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--accent);
+        font-size: 1.1rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .project-card {
+        background: var(--bg-elevated);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        transition:
+          border-color 0.25s,
+          box-shadow 0.25s,
+          transform 0.25s;
+      }
+
+      .project-card:hover {
+        border-color: rgba(99, 102, 241, 0.5);
+        box-shadow: 0 12px 40px rgba(99, 102, 241, 0.18);
+        transform: translateY(-4px);
+      }
+
+      /* screenshot panel */
+      .pc-image {
+        height: 185px;
+        overflow: hidden;
+        position: relative;
+        background: #0c1020;
+        flex-shrink: 0;
+      }
+
+      .pc-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top center;
+        display: block;
+        transition:
+          transform 0.45s ease,
+          filter 0.45s ease;
+        filter: brightness(0.92);
+      }
+
+      .project-card:hover .pc-image img {
+        transform: scale(1.04);
+        filter: brightness(1);
+      }
+
+      /* number badge overlaid on image */
+      .pc-num {
+        position: absolute;
+        top: 0.85rem;
+        left: 0.9rem;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        color: rgba(255, 255, 255, 0.55);
+        background: rgba(7, 11, 22, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        padding: 0.15rem 0.5rem;
+        backdrop-filter: blur(6px);
+        user-select: none;
+      }
+
+      /* "click to preview" icon, top-right */
+      .pc-preview-icon {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        background: rgba(7, 11, 22, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.75rem;
+        opacity: 0;
+        backdrop-filter: blur(6px);
+        transition:
+          opacity 0.25s,
+          background 0.25s;
+      }
+      .project-card:hover .pc-preview-icon {
+        opacity: 1;
+        background: rgba(99, 102, 241, 0.35);
+        color: #fff;
+      }
+
+      /* card body */
+      .pc-body {
+        padding: 1.2rem 1.3rem 1.3rem;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        gap: 0.55rem;
+      }
+
+      .pc-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.3rem;
+      }
+
+      .proj-tag {
+        display: inline-block;
+        font-size: 0.62rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        background: rgba(99, 102, 241, 0.12);
+        border: 1px solid rgba(99, 102, 241, 0.28);
+        color: var(--accent);
+        border-radius: 4px;
+        padding: 0.18rem 0.55rem;
+      }
+
+      .pc-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin: 0;
+        line-height: 1.3;
+        transition: color 0.2s;
+      }
+      .project-card:hover .pc-title {
+        color: #fff;
+      }
+
+      .pc-desc {
+        font-size: 0.815rem;
+        color: var(--text-muted);
+        line-height: 1.6;
+        margin: 0;
+        flex: 1;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      /* footer row: links pushed to bottom */
+      .pc-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 0.65rem;
+        border-top: 1px solid var(--border);
+        margin-top: auto;
+      }
+
+      .pc-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-decoration: none;
+        padding: 0.3rem 0.65rem;
+        border-radius: 6px;
+        border: 1px solid transparent;
+        transition:
+          color 0.2s,
+          border-color 0.2s,
+          background 0.2s;
+      }
+      .pc-link:hover {
+        color: var(--text-primary);
+        border-color: var(--border-light);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .pc-expand {
+        font-size: 0.72rem;
+        color: var(--text-muted);
+        font-family: "JetBrains Mono", monospace;
+        letter-spacing: 0.04em;
+        opacity: 0;
+        transition: opacity 0.2s;
+        user-select: none;
+      }
+      .project-card:hover .pc-expand {
+        opacity: 1;
+      }
+
+      .modal-content {
+        background: var(--bg-elevated);
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-lg);
+        color: var(--text-primary);
+        overflow: hidden;
+      }
+
+      .modal-accent-bar {
+        height: 3px;
+        background: linear-gradient(90deg, var(--accent), var(--cyan));
+      }
+
+      .modal-header {
+        border-bottom: 1px solid var(--border);
+        padding: 1.1rem 1.5rem;
+        background: rgba(0, 0, 0, 0.2);
+      }
+
+      .modal-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--text-primary);
+      }
+
+      /* no padding on body — image bleeds edge-to-edge */
+      .modal-body {
+        padding: 0;
+      }
+
+      .modal-screenshot {
+        width: 100%;
+        display: block;
+        max-height: 320px;
+        object-fit: cover;
+        object-position: top center;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .modal-content-area {
+        padding: 1.5rem;
+      }
+
+      .modal-meta-row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .modal-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+      }
+
+      .modal-status {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #34d399;
+        background: rgba(52, 211, 153, 0.1);
+        border: 1px solid rgba(52, 211, 153, 0.25);
+        border-radius: 100px;
+        padding: 0.2rem 0.7rem;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+
+      .modal-divider {
+        height: 1px;
+        background: var(--border);
+        margin: 1rem 0;
+      }
+
+      .modal-section-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-bottom: 0.5rem;
+      }
+
+      .modal-description {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        line-height: 1.75;
+        margin: 0;
+      }
+
+      .modal-footer-bar {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 0.75rem;
+        padding: 1rem 1.5rem;
+        border-top: 1px solid var(--border);
+        background: rgba(0, 0, 0, 0.15);
+        flex-wrap: wrap;
+      }
+
+      .modal-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        padding: 0.55rem 1.25rem;
+        border-radius: 8px;
+        text-decoration: none;
+        transition:
+          background 0.2s,
+          box-shadow 0.2s,
+          transform 0.15s,
+          border-color 0.2s;
+        white-space: nowrap;
+      }
+
+      .modal-btn-primary {
+        background: var(--accent);
+        color: #fff;
+        border: 1px solid transparent;
+      }
+      .modal-btn-primary:hover {
+        background: var(--accent-hover);
+        color: #fff;
+        box-shadow: 0 0 20px var(--accent-glow);
+        transform: translateY(-1px);
+      }
+
+      .modal-btn-outline {
+        background: transparent;
+        color: var(--text-secondary);
+        border: 1px solid var(--border-light);
+      }
+      .modal-btn-outline:hover {
+        color: var(--text-primary);
+        border-color: var(--accent);
+        background: var(--accent-glow);
+        transform: translateY(-1px);
+      }
+
+      #terminal-section {
+        background-color: var(--bg-primary);
+        padding: 6rem 0;
+      }
+
+      .terminal-window {
+        background: #060910;
+        border: 1px solid #1a2540;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow:
+          0 0 0 1px rgba(99, 102, 241, 0.08),
+          0 24px 80px rgba(0, 0, 0, 0.6);
+        max-width: 860px;
+        margin: 0 auto;
+        font-family: "JetBrains Mono", monospace;
+      }
+
+      .terminal-titlebar {
+        background: #0d1220;
+        border-bottom: 1px solid #1a2540;
+        padding: 0.7rem 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        user-select: none;
+      }
+
+      .term-dots {
+        display: flex;
+        gap: 6px;
+      }
+      .term-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+      .term-dot-red {
+        background: #ff5f57;
+      }
+      .term-dot-yellow {
+        background: #febc2e;
+      }
+      .term-dot-green {
+        background: #28c840;
+      }
+
+      .term-titlebar-label {
+        flex: 1;
+        text-align: center;
+        font-size: 0.72rem;
+        color: #4a5a7a;
+        letter-spacing: 0.04em;
+      }
+
+      .terminal-body {
+        padding: 1.25rem 1.5rem;
+        min-height: 340px;
+        max-height: 420px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        scrollbar-width: thin;
+        scrollbar-color: #1e2d4a transparent;
+      }
+
+      .terminal-body::-webkit-scrollbar {
+        width: 4px;
+      }
+      .terminal-body::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .terminal-body::-webkit-scrollbar-thumb {
+        background: #1e2d4a;
+        border-radius: 4px;
+      }
+
+      .term-line {
+        font-size: 0.83rem;
+        line-height: 1.65;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+
+      .term-prompt-echo {
+        color: #22d3ee;
+      }
+      .term-prompt-echo .term-cmd-text {
+        color: #f1f5f9;
+      }
+      .term-out-default {
+        color: #94a3b8;
+      }
+      .term-out-highlight {
+        color: #e2e8f0;
+      }
+      .term-out-accent {
+        color: #818cf8;
+      }
+      .term-out-green {
+        color: #34d399;
+      }
+      .term-out-cyan {
+        color: #22d3ee;
+      }
+      .term-out-yellow {
+        color: #fbbf24;
+      }
+      .term-out-red {
+        color: #f87171;
+      }
+      .term-out-muted {
+        color: #475569;
+      }
+      .term-out-link {
+        color: #818cf8;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+
+      .term-spacer {
+        height: 0.4rem;
+      }
+
+      /* input row */
+      .terminal-input-row {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem 1rem;
+        border-top: 1px solid #0f1828;
+      }
+
+      .term-prompt-label {
+        color: #22d3ee;
+        font-size: 0.83rem;
+        font-family: "JetBrains Mono", monospace;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+
+      .term-prompt-label span {
+        color: #818cf8;
+      }
+
+      .terminal-input {
+        background: none;
+        border: none;
+        outline: none;
+        color: #f1f5f9;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.83rem;
+        caret-color: #22d3ee;
+        flex: 1;
+        padding: 0;
+      }
+
+      /* hint bar */
+      .terminal-hint {
+        padding: 0.5rem 1.5rem 0.7rem;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.68rem;
+        color: #2a3a5a;
+        border-top: 1px solid #0d1828;
+        display: flex;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .terminal-hint span {
+        color: #3a4f70;
+      }
+      .terminal-hint kbd {
+        color: #4a6080;
+        background: #0d1828;
+        border: 1px solid #1a2845;
+        border-radius: 3px;
+        padding: 0 4px;
+        font-size: 0.65rem;
+      }
+
+      footer {
+        background: var(--bg-surface);
+        border-top: 1px solid var(--border);
+        padding: 2.5rem 0;
+      }
+
+      footer p {
+        color: var(--text-muted);
+        font-size: 0.875rem;
+        margin: 0;
       }
 
       .reveal {
         opacity: 0;
-        transform: translateY(50px);
-        transition: opacity 1s ease-out, transform 1s ease-out;
+        transform: translateY(30px);
+        transition:
+          opacity 0.7s ease-out,
+          transform 0.7s ease-out;
       }
+
       .reveal.active {
         opacity: 1;
         transform: translateY(0);
       }
 
-      .cursor {
-        display: inline-block;
-        width: 0.2ch;
-        background: #e0defb;
-        animation: blink 0.8s steps(1) infinite;
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+        z-index: 1100;
       }
-      @keyframes blink {
-        50% {
-          background: transparent;
+      .hamburger span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: var(--text-primary);
+        border-radius: 2px;
+        transition:
+          transform 0.3s,
+          opacity 0.3s;
+      }
+      .hamburger.open span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+      .hamburger.open span:nth-child(2) {
+        opacity: 0;
+      }
+      .hamburger.open span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+
+      .mobile-menu {
+        display: none;
+        position: fixed;
+        inset: 0;
+        top: 57px;
+        background: rgba(7, 11, 22, 0.97);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        z-index: 999;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+      }
+      .mobile-menu.open {
+        display: flex;
+      }
+      .mobile-menu a {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .mobile-menu a:hover {
+        color: var(--accent);
+      }
+
+      .exp-mobile-banner {
+        display: none;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        height: 140px;
+        border: 1px solid var(--border);
+        position: relative;
+        margin-bottom: 1.75rem;
+      }
+      .exp-mobile-banner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.5);
+      }
+      .exp-mobile-banner .exp-banner-label {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 0.3rem;
+      }
+      .exp-mobile-banner .exp-banner-label span {
+        font-size: 0.65rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        font-family: "JetBrains Mono", monospace;
+      }
+      .exp-mobile-banner .exp-banner-label strong {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--text-primary);
+      }
+
+      @media (max-width: 991px) {
+        .exp-mobile-banner {
+          display: block;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .desktop-nav {
+          display: none !important;
+        }
+        .hamburger {
+          display: flex;
+        }
+        .hero h1 {
+          font-size: 2.2rem;
+        }
+        .hero-photo-wrap img {
+          width: 200px;
+          height: 200px;
+        }
+        .about-photo {
+          width: 100%;
+          max-width: 280px;
+          height: 280px;
+        }
+        .stat-badge .num {
+          font-size: 1.4rem;
+        }
+        .timeline {
+          padding-left: 1.75rem;
+        }
+        .timeline-dot {
+          left: -2.2rem;
         }
       }
     </style>
   </head>
 
   <body>
-    <header class="py-3 shadow text-white sticky-top">
+    <div class="ambient ambient-1"></div>
+    <div class="ambient ambient-2"></div>
+
+    <header>
       <div class="container d-flex justify-content-between align-items-center">
-        <h2 class="mb-0 fw-bold">
-          <a style="text-decoration: none" href="#">Samuel Dugger</a>
-        </h2>
-        <nav>
-          <a href="#about" class="me-3 text-decoration-none">About</a>
-          <a href="#skills" class="me-3 text-decoration-none">Skills</a>
-          <a href="#education" class="me-3 text-decoration-none">Education</a>
-          <a href="#portfolio" class="me-3 text-decoration-none">Portfolio</a>
-          <a href="#experience" class="me-3 text-decoration-none">Experience</a>
+        <a href="#" class="nav-brand">Samuel<span>.</span>Dugger</a>
+        <nav class="desktop-nav d-flex gap-4">
+          <a href="#about">About</a>
+          <a href="#skills">Skills</a>
+          <a href="#education">Education</a>
+          <a href="#portfolio">Portfolio</a>
+          <a href="#experience">Experience</a>
+          <a href="#terminal-section" style="color: var(--cyan)"
+            ><i
+              class="fas fa-terminal"
+              style="font-size: 0.75em; margin-right: 3px"
+            ></i
+            >Terminal</a
+          >
         </nav>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </header>
 
-    <section class="hero text-center">
-      <div class="container">
-        <h1 class="display-4 fw-bold">
-          Hello, I'm <span class="text-info">Samuel Dugger</span>
-        </h1>
-        <p class="lead">
-          I am a&nbsp;<span class="typed-text text-info"></span
-          ><span class="cursor">&nbsp;</span>
-        </p>
-        <a href="#portfolio" class="btn btn-accent btn-lg mt-3">View My Work</a>
-      </div>
-    </section>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#about" class="mobile-nav-link">About</a>
+      <a href="#skills" class="mobile-nav-link">Skills</a>
+      <a href="#education" class="mobile-nav-link">Education</a>
+      <a href="#portfolio" class="mobile-nav-link">Portfolio</a>
+      <a href="#experience" class="mobile-nav-link">Experience</a>
+      <a
+        href="#terminal-section"
+        class="mobile-nav-link"
+        style="color: var(--cyan)"
+        >Terminal</a
+      >
+    </div>
 
-    <section id="about" class="py-5">
-      <div class="container">
-        <h2 class="mb-4 text-center">About Me</h2>
-        <div class="row align-items-center">
-          <div class="col-md-4">
-            <img
-              src="./images/Headshots-Jan24-Samuel Dugger Resized.jpg"
-              class="img-fluid rounded-circle shadow"
-              alt="Profile"
-            />
-          </div>
-          <div class="col-md-8">
-            <p class="reveal lead">
-              Hello! I'm a front-end developer with a passion for clean UI/UX
-              design and modern web technologies. I specialize in building
-              responsive, scalable applications using JavaScript, Bootstrap, and
-              React. Let's build something awesome together!
+    <section class="hero">
+      <div class="hero-grid"></div>
+      <div class="container position-relative">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-7">
+            <div class="hero-badge">
+              <span class="dot"></span>
+              Available for opportunities
+            </div>
+            <h1>
+              Hello, I'm<br />
+              <span class="gradient-name">Samuel Dugger</span>
+            </h1>
+            <p class="hero-sub">
+              I am a <span class="typed-text"></span
+              ><span class="cursor"></span>
             </p>
+            <div class="hero-actions">
+              <a href="#portfolio" class="btn-primary-custom">
+                <i class="fas fa-code"></i> View My Work
+              </a>
+              <a href="#about" class="btn-outline-custom">
+                <i class="fas fa-user"></i> About Me
+              </a>
+            </div>
+            <div class="hero-socials">
+              <a
+                href="https://github.com/SamuelDugger"
+                target="_blank"
+                class="social-icon"
+                title="GitHub"
+              >
+                <i class="fab fa-github"></i>
+              </a>
+              <a
+                href="https://www.linkedin.com/in/samuel-dugger-a369a5218"
+                target="_blank"
+                class="social-icon"
+                title="LinkedIn"
+              >
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+              <a
+                href="mailto:samueldugger98@gmail.com"
+                class="social-icon"
+                title="Email"
+              >
+                <i class="fas fa-envelope"></i>
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-5 d-none d-lg-flex justify-content-center">
+            <div class="hero-photo-wrap">
+              <img
+                src="./images/Headshots-Jan24-Samuel Dugger Resized.jpg"
+                alt="Samuel Dugger"
+              />
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="skills" class="py-5 text-center">
+    <section id="about">
       <div class="container">
-        <h2 class="mb-4">My Skills</h2>
+        <div class="row align-items-center g-5">
+          <div class="col-md-4 text-center reveal">
+            <img
+              src="./images/Headshots-Jan24-Samuel Dugger.jpg"
+              class="about-photo"
+              alt="Samuel Dugger"
+            />
+          </div>
+          <div class="col-md-8">
+            <p class="section-label">Get to know me</p>
+            <h2 class="section-title">About <span>Me</span></h2>
+            <div class="section-divider"></div>
+            <p
+              class="reveal"
+              style="font-size: 1.05rem; color: var(--text-secondary)"
+            >
+              I'm a Full Stack Developer with a background in IT support and a
+              passion for building clean, performant web applications. I
+              specialize in crafting responsive UIs and robust back-end systems
+              using modern technologies. Currently working at Choctaw Nation of
+              Oklahoma, I enjoy solving real-world problems through thoughtful
+              software design.
+            </p>
+            <div class="row g-3 mt-2 reveal">
+              <div class="col-4">
+                <div class="stat-badge">
+                  <div class="num">3+</div>
+                  <div class="label">Years Experience</div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="stat-badge">
+                  <div class="num">6+</div>
+                  <div class="label">Projects Built</div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="stat-badge">
+                  <div class="num">2</div>
+                  <div class="label">Degrees Earned</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="container text-center">
+        <p class="section-label">What I work with</p>
+        <h2 class="section-title mb-1">My <span>Skills</span></h2>
+        <p style="color: var(--text-muted); margin-bottom: 2.5rem">
+          Technologies I use to bring ideas to life
+        </p>
         <div class="swiper mySwiper">
           <div class="swiper-wrapper">
             <div class="swiper-slide">
               <img
                 src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
                 alt="HTML5"
-              />
+              /><span class="skill-label">HTML5</span>
             </div>
             <div class="swiper-slide">
               <img
                 src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"
                 alt="CSS3"
-              />
+              /><span class="skill-label">CSS3</span>
             </div>
             <div class="swiper-slide">
               <img
                 src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
                 alt="JavaScript"
-              />
+              /><span class="skill-label">JavaScript</span>
             </div>
             <div class="swiper-slide">
               <img
                 src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg"
                 alt="Bootstrap"
-              />
+              /><span class="skill-label">Bootstrap</span>
             </div>
             <div class="swiper-slide">
               <img
                 src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
                 alt="Git"
-              />
+              /><span class="skill-label">Git</span>
             </div>
             <div class="swiper-slide">
               <img
                 src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"
                 alt="MySQL"
-              />
+              /><span class="skill-label">MySQL</span>
             </div>
             <div class="swiper-slide">
               <img
                 src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg"
                 alt="PHP"
-              />
+              /><span class="skill-label">PHP</span>
             </div>
             <div class="swiper-slide">
               <img
                 src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/powershell/powershell-original.svg"
                 alt="PowerShell"
-              />
+              /><span class="skill-label">PowerShell</span>
             </div>
             <div class="swiper-slide">
               <img
                 src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg"
                 alt="C#"
-              />
+              /><span class="skill-label">C#</span>
             </div>
             <div class="swiper-slide">
               <img
                 src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg"
                 alt="C"
-              />
+              /><span class="skill-label">C</span>
             </div>
             <div class="swiper-slide">
               <img
                 src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/unity/unity-original.svg"
                 alt="Unity"
-              />
+              /><span class="skill-label">Unity</span>
             </div>
             <div class="swiper-slide">
               <img
                 src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/godot/godot-original.svg"
                 alt="Godot"
-              />
+              /><span class="skill-label">Godot</span>
             </div>
             <div class="swiper-slide">
               <img
                 src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg"
                 alt="Docker"
-              />
+              /><span class="skill-label">Docker</span>
             </div>
             <div class="swiper-slide">
               <img
                 src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apache/apache-original.svg"
                 alt="Apache"
-              />
+              /><span class="skill-label">Apache</span>
             </div>
             <div class="swiper-slide">
               <img
                 src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
                 alt="Python"
+              /><span class="skill-label">Python</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="terminal-section" style="margin-top: 4rem; text-align: left">
+          <p class="section-label" style="text-align: left">Try it out</p>
+          <h3
+            class="section-title"
+            style="font-size: clamp(1.4rem, 3vw, 1.9rem); text-align: left"
+          >
+            Interactive <span>Terminal</span>
+          </h3>
+          <div class="section-divider"></div>
+          <p
+            style="
+              color: var(--text-muted);
+              margin-bottom: 2rem;
+              font-size: 0.875rem;
+            "
+          >
+            A live terminal running in your browser. Type
+            <code
+              style="
+                color: var(--accent);
+                background: rgba(99, 102, 241, 0.1);
+                padding: 0.1rem 0.4rem;
+                border-radius: 4px;
+                font-family: &quot;JetBrains Mono&quot;, monospace;
+                font-size: 0.8rem;
+              "
+              >help</code
+            >
+            to get started.
+          </p>
+          <div class="terminal-window reveal">
+            <div class="terminal-titlebar">
+              <div class="term-dots">
+                <span class="term-dot term-dot-red"></span>
+                <span class="term-dot term-dot-yellow"></span>
+                <span class="term-dot term-dot-green"></span>
+              </div>
+              <span class="term-titlebar-label">samuel@portfolio — bash</span>
+              <div style="width: 42px"></div>
+            </div>
+            <div class="terminal-body" id="termOutput"></div>
+            <div class="terminal-input-row">
+              <span class="term-prompt-label"
+                >samuel<span>@</span>portfolio:~$</span
+              >
+              <input
+                class="terminal-input"
+                id="termInput"
+                type="text"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+                placeholder="type a command…"
+                aria-label="Terminal input"
               />
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="education" class="py-5">
-      <div class="container">
-        <h2 class="mb-4">My <span class="div">Education</span></h2>
-        <div class="row g-2">
-          <div class="col-md-6 reveal">
-            <div
-              class="project-card big-card"
-              style="background-image: url('./images/osuit-campus.jpg')"
-            >
-              <div class="content">
-                <h5>
-                  Associate in Applied Science (AAS) in Information Technology
-                </h5>
-                <p class="small">
-                  Oklahoma State University Institute of Technology
-                </p>
-                <p class="small">2019-2021 | Completed</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 reveal">
-            <div
-              class="project-card big-card"
-              style="background-image: url('./images/OSU.jpg')"
-            >
-              <div class="content">
-                <h5>
-                  Bachelor of Technology (BT) in Information Technologies in
-                  Software Development
-                </h5>
-                <p class="small">
-                  Oklahoma State University Institute of Technology
-                </p>
-                <p class="small">2021-2023 | Completed</p>
-              </div>
+            <div class="terminal-hint">
+              <span><kbd>↑</kbd><kbd>↓</kbd> history</span>
+              <span><kbd>Tab</kbd> autocomplete</span>
+              <span><kbd>Enter</kbd> run</span>
+              <span><kbd>Ctrl+L</kbd> clear</span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="portfolio" class="py-5">
+    <section id="education">
       <div class="container">
-        <h2 class="mb-4 m">My Portfolio</h2>
-        <div class="row g-6">
-          <div class="col-md-6 mb-4 reveal">
-            <div
-              class="project-card small-card"
-              style="background-image: url('./images/HaileyvilleWebsite.PNG')"
-            >
-              <div class="content">
-                <h5>Haileyville Church Website</h5>
-                <p class="small">
-                  This was created for the Haileyville Church for my capstone
-                  course at OSU IT: <br />
-                  <a
-                    href="https://github.com/SamuelDugger/HaileyvilleChristianWebsite"
-                    >GitHub</a
-                  >
-                  |
-                  <a
-                    href="https://samueldugger.github.io/HaileyvilleChristianWebsite/"
-                    >Live Site</a
-                  >
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 mb-4 reveal">
-            <div
-              class="project-card small-card"
-              style="background-image: url('./images/Fallout4BuildPlanner.PNG')"
-            >
-              <div class="content">
-                <h5>Fallout 4 Build Planner</h5>
-                <p class="small">
-                  A web app I made to assist with automating Fallout 4 builds.
-                  <br />
-                  <a href="https://github.com/SamuelDugger/Fallout4BuildPlanner"
-                    >GitHub</a
-                  >
-                  |
-                  <a href="https://samueldugger.github.io/Fallout4BuildPlanner/"
-                    >Live Site</a
-                  >
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 mb-4 reveal">
-            <div
-              class="project-card small-card"
-              style="background-image: url('./images/GASC.png')"
-            >
-              <div class="content">
-                <h5>GASC</h5>
-                <p class="small">
-                  Service monitor and controller that I made for Choctaw Nation
-                  Commerce. This application is modular and allows users to
-                  remotely control their server services. <br />
-                  <a href="https://github.com/SamuelDugger/GASC">GitHub</a>
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 mb-4 reveal">
-            <div
-              class="project-card small-card"
-              style="background-image: url('./images/OldPortfolio.PNG')"
-            >
-              <div class="content">
-                <h5>Old Portfolio Website</h5>
-                <p class="small">
-                  I made this when I was still fairly new to web development.
-                  <br />
-                  <a href="https://github.com/SamuelDugger/PortfolioWebsite"
-                    >GitHub</a
-                  >
-                  |
-                  <a href="https://samueldugger.github.io/PortfolioWebsite/"
-                    >Live Site</a
-                  >
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 mb-4 reveal">
-            <div
-              class="project-card small-card"
-              style="background-image: url('./images/JumpShoot.PNG')"
-            >
-              <div class="content">
-                <h5>JumpShoot</h5>
-                <p class="small">
-                  Passion project game to help me learn the Unity game engine.
-                  <br />
-                  <a href="https://github.com/SamuelDugger/JumpShoot">GitHub</a>
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 mb-4 reveal">
-            <div
-              class="project-card small-card"
-              style="background-image: url('./images/OneDeck.PNG')"
-            >
-              <div class="content">
-                <h5>OneDeck</h5>
-                <p class="small">
-                  Deck building and analysis web app that includes marketing
-                  information and robust searching capabilities. <br />
-                  <a href="https://github.com/SamuelDugger/OnePieceCardGallery"
-                    >GitHub</a
-                  >
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="experience" class="py-5">
-      <div class="container">
-        <h2 class="mb-4">My <span class="div">Experience</span></h2>
+        <p class="section-label">Academic background</p>
+        <h2 class="section-title">My <span>Education</span></h2>
+        <div class="section-divider"></div>
         <div class="row g-4">
-          <div class="col-md-4 reveal">
-            <div
-              class="project-card small-card"
-              style="
-                background-image: url('./images/Choctaw-Nation-of-Oklahoma-2.jpg');
-              "
-            >
-              <div class="content">
-                <h5>Technical Support Engineer 1</h5>
-                <p class="small">Choctaw Nation of Oklahoma</p>
-                <p class="small">4/22 - 2/24</p>
+          <div class="col-md-6 reveal">
+            <div class="edu-img-card">
+              <img src="./images/osuit-campus.jpg" alt="OSUIT Campus" />
+              <div class="edu-overlay">
+                <div class="edu-icon-badge">
+                  <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span class="timeline-date mb-2"
+                  >2019 – 2021 &nbsp;·&nbsp; Completed</span
+                >
+                <h5
+                  style="
+                    font-size: 1rem;
+                    font-weight: 700;
+                    margin-bottom: 0.3rem;
+                  "
+                >
+                  Associate in Applied Science
+                </h5>
+                <p
+                  style="
+                    font-size: 0.8rem;
+                    color: var(--text-secondary);
+                    margin: 0 0 0.2rem;
+                  "
+                >
+                  Information Technology
+                </p>
+                <p
+                  style="
+                    font-size: 0.75rem;
+                    color: var(--text-muted);
+                    margin: 0;
+                  "
+                >
+                  OSU Institute of Technology
+                </p>
               </div>
             </div>
           </div>
-          <div class="col-md-4 reveal">
-            <div
-              class="project-card small-card"
-              style="
-                background-image: url('./images/Choctaw-Nation-of-Oklahoma-2.jpg');
-              "
-            >
-              <div class="content">
-                <h5>Technical Support Engineer 2</h5>
-                <p class="small">Choctaw Nation of Oklahoma</p>
-                <p class="small">2/24 - 8/24</p>
+          <div class="col-md-6 reveal">
+            <div class="edu-img-card">
+              <img src="./images/OSU.jpg" alt="OSU Campus" />
+              <div class="edu-overlay">
+                <div class="edu-icon-badge">
+                  <i class="fas fa-university"></i>
+                </div>
+                <span class="timeline-date mb-2"
+                  >2021 – 2023 &nbsp;·&nbsp; Completed</span
+                >
+                <h5
+                  style="
+                    font-size: 1rem;
+                    font-weight: 700;
+                    margin-bottom: 0.3rem;
+                  "
+                >
+                  Bachelor of Technology
+                </h5>
+                <p
+                  style="
+                    font-size: 0.8rem;
+                    color: var(--text-secondary);
+                    margin: 0 0 0.2rem;
+                  "
+                >
+                  Information Technologies in Software Development
+                </p>
+                <p
+                  style="
+                    font-size: 0.75rem;
+                    color: var(--text-muted);
+                    margin: 0;
+                  "
+                >
+                  OSU Institute of Technology
+                </p>
               </div>
             </div>
           </div>
-          <div class="col-md-4 reveal">
+        </div>
+      </div>
+    </section>
+
+    <section id="portfolio">
+      <div class="container">
+        <p class="section-label">What I've built</p>
+        <h2 class="section-title">My <span>Portfolio</span></h2>
+        <div class="section-divider"></div>
+        <div class="row g-4">
+          <div class="col-md-6 reveal">
             <div
-              class="project-card small-card"
-              style="
-                background-image: url('./images/Choctaw-Nation-of-Oklahoma-2.jpg');
-              "
+              class="project-card"
+              data-title="Haileyville Church Website"
+              data-desc="Capstone project built for the Haileyville Church at OSU Institute of Technology. A fully responsive static site with event listings and contact information."
+              data-tags="HTML,CSS,JavaScript"
+              data-image="./images/HaileyvilleWebsite.PNG"
+              data-github="https://github.com/SamuelDugger/HaileyvilleChristianWebsite"
+              data-live="https://samueldugger.github.io/HaileyvilleChristianWebsite/"
             >
-              <div class="content">
-                <h5>Fullstack Developer</h5>
-                <p class="small">Choctaw Nation of Oklahoma</p>
-                <p class="small">8/24 - Current</p>
+              <div class="pc-image">
+                <img
+                  src="./images/HaileyvilleWebsite.PNG"
+                  alt="Haileyville Church Website"
+                />
+                <span class="pc-num">01</span>
+                <span class="pc-preview-icon"><i class="fas fa-eye"></i></span>
+              </div>
+              <div class="pc-body">
+                <div class="pc-tags">
+                  <span class="proj-tag">HTML</span
+                  ><span class="proj-tag">CSS</span
+                  ><span class="proj-tag">JavaScript</span>
+                </div>
+                <h5 class="pc-title">Haileyville Church Website</h5>
+                <p class="pc-desc">
+                  Responsive site built for a local church as an OSU IT capstone
+                  — event listings, service info, and contact page.
+                </p>
+                <div class="pc-footer">
+                  <div style="display: flex; gap: 0.4rem">
+                    <a
+                      href="https://github.com/SamuelDugger/HaileyvilleChristianWebsite"
+                      class="pc-link"
+                      target="_blank"
+                      onclick="event.stopPropagation()"
+                      ><i class="fab fa-github"></i> GitHub</a
+                    >
+                    <a
+                      href="https://samueldugger.github.io/HaileyvilleChristianWebsite/"
+                      class="pc-link"
+                      target="_blank"
+                      onclick="event.stopPropagation()"
+                      ><i class="fas fa-arrow-up-right-from-square"></i> Live</a
+                    >
+                  </div>
+                  <span class="pc-expand">click to expand →</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 reveal">
+            <div
+              class="project-card"
+              data-title="Fallout 4 Build Planner"
+              data-desc="An interactive web application for planning and automating Fallout 4 character builds. Users can allocate SPECIAL points, browse and select perks, and visualize their build before committing."
+              data-tags="JavaScript,HTML,CSS"
+              data-image="./images/Fallout4BuildPlanner.PNG"
+              data-github="https://github.com/SamuelDugger/Fallout4BuildPlanner"
+              data-live="https://samueldugger.github.io/Fallout4BuildPlanner/"
+            >
+              <div class="pc-image">
+                <img
+                  src="./images/Fallout4BuildPlanner.PNG"
+                  alt="Fallout 4 Build Planner"
+                />
+                <span class="pc-num">02</span>
+                <span class="pc-preview-icon"><i class="fas fa-eye"></i></span>
+              </div>
+              <div class="pc-body">
+                <div class="pc-tags">
+                  <span class="proj-tag">JavaScript</span
+                  ><span class="proj-tag">HTML</span
+                  ><span class="proj-tag">CSS</span>
+                </div>
+                <h5 class="pc-title">Fallout 4 Build Planner</h5>
+                <p class="pc-desc">
+                  Interactive web tool for planning Fallout 4 character builds —
+                  SPECIAL allocation, perk selection, and shareable builds.
+                </p>
+                <div class="pc-footer">
+                  <div style="display: flex; gap: 0.4rem">
+                    <a
+                      href="https://github.com/SamuelDugger/Fallout4BuildPlanner"
+                      class="pc-link"
+                      target="_blank"
+                      onclick="event.stopPropagation()"
+                      ><i class="fab fa-github"></i> GitHub</a
+                    >
+                    <a
+                      href="https://samueldugger.github.io/Fallout4BuildPlanner/"
+                      class="pc-link"
+                      target="_blank"
+                      onclick="event.stopPropagation()"
+                      ><i class="fas fa-arrow-up-right-from-square"></i> Live</a
+                    >
+                  </div>
+                  <span class="pc-expand">click to expand →</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 reveal">
+            <div
+              class="project-card"
+              data-title="GASC — Service Monitor & Controller"
+              data-desc="A modular Windows service monitoring and remote control application built for Choctaw Nation Commerce. Allows IT staff to start, stop, and monitor server services remotely without needing direct server access."
+              data-tags="C#,WinForms,Windows Services"
+              data-image="./images/GASC.png"
+              data-github="https://github.com/SamuelDugger/GASC"
+            >
+              <div class="pc-image">
+                <img src="./images/GASC.png" alt="GASC" />
+                <span class="pc-num">03</span>
+                <span class="pc-preview-icon"><i class="fas fa-eye"></i></span>
+              </div>
+              <div class="pc-body">
+                <div class="pc-tags">
+                  <span class="proj-tag">C#</span
+                  ><span class="proj-tag">WinForms</span
+                  ><span class="proj-tag">Services</span>
+                </div>
+                <h5 class="pc-title">GASC</h5>
+                <p class="pc-desc">
+                  Modular Windows service monitor built for Choctaw Nation —
+                  remote start/stop/status control without direct server access.
+                </p>
+                <div class="pc-footer">
+                  <div style="display: flex; gap: 0.4rem">
+                    <a
+                      href="https://github.com/SamuelDugger/GASC"
+                      class="pc-link"
+                      target="_blank"
+                      onclick="event.stopPropagation()"
+                      ><i class="fab fa-github"></i> GitHub</a
+                    >
+                  </div>
+                  <span class="pc-expand">click to expand →</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 reveal">
+            <div
+              class="project-card"
+              data-title="Old Portfolio Website"
+              data-desc="My original personal portfolio website, built early in my web development journey. Serves as a snapshot of my foundational HTML, CSS, and Bootstrap skills before I expanded into full-stack development."
+              data-tags="HTML,CSS,Bootstrap"
+              data-image="./images/OldPortfolio.PNG"
+              data-github="https://github.com/SamuelDugger/PortfolioWebsite"
+              data-live="https://samueldugger.github.io/PortfolioWebsite/"
+            >
+              <div class="pc-image">
+                <img
+                  src="./images/OldPortfolio.PNG"
+                  alt="Old Portfolio Website"
+                />
+                <span class="pc-num">04</span>
+                <span class="pc-preview-icon"><i class="fas fa-eye"></i></span>
+              </div>
+              <div class="pc-body">
+                <div class="pc-tags">
+                  <span class="proj-tag">HTML</span
+                  ><span class="proj-tag">CSS</span
+                  ><span class="proj-tag">Bootstrap</span>
+                </div>
+                <h5 class="pc-title">Old Portfolio Website</h5>
+                <p class="pc-desc">
+                  My original portfolio — a snapshot of early front-end skills
+                  and the starting point of my development career.
+                </p>
+                <div class="pc-footer">
+                  <div style="display: flex; gap: 0.4rem">
+                    <a
+                      href="https://github.com/SamuelDugger/PortfolioWebsite"
+                      class="pc-link"
+                      target="_blank"
+                      onclick="event.stopPropagation()"
+                      ><i class="fab fa-github"></i> GitHub</a
+                    >
+                    <a
+                      href="https://samueldugger.github.io/PortfolioWebsite/"
+                      class="pc-link"
+                      target="_blank"
+                      onclick="event.stopPropagation()"
+                      ><i class="fas fa-arrow-up-right-from-square"></i> Live</a
+                    >
+                  </div>
+                  <span class="pc-expand">click to expand →</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 reveal">
+            <div
+              class="project-card"
+              data-title="JumpShoot"
+              data-desc="A 2D platformer shooter built as a passion project to learn the Unity game engine and C#. Features custom physics, basic enemy AI, multi-level progression, and hand-crafted sprite work."
+              data-tags="Unity,C#,2D Game"
+              data-image="./images/JumpShoot.PNG"
+              data-github="https://github.com/SamuelDugger/JumpShoot"
+            >
+              <div class="pc-image">
+                <img src="./images/JumpShoot.PNG" alt="JumpShoot" />
+                <span class="pc-num">05</span>
+                <span class="pc-preview-icon"><i class="fas fa-eye"></i></span>
+              </div>
+              <div class="pc-body">
+                <div class="pc-tags">
+                  <span class="proj-tag">Unity</span
+                  ><span class="proj-tag">C#</span
+                  ><span class="proj-tag">2D Game</span>
+                </div>
+                <h5 class="pc-title">JumpShoot</h5>
+                <p class="pc-desc">
+                  2D platformer shooter built to learn Unity — custom enemy AI,
+                  physics, multi-level progression, and sprite work.
+                </p>
+                <div class="pc-footer">
+                  <div style="display: flex; gap: 0.4rem">
+                    <a
+                      href="https://github.com/SamuelDugger/JumpShoot"
+                      class="pc-link"
+                      target="_blank"
+                      onclick="event.stopPropagation()"
+                      ><i class="fab fa-github"></i> GitHub</a
+                    >
+                  </div>
+                  <span class="pc-expand">click to expand →</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 reveal">
+            <div
+              class="project-card"
+              data-title="OneDeck"
+              data-desc="A full-stack deck-building and analysis web application for the One Piece Card Game. Features robust card searching with filters, deck analysis tools, market pricing information, and deck import/export."
+              data-tags="PHP,MySQL,JavaScript,Bootstrap"
+              data-image="./images/OneDeck.PNG"
+              data-github="https://github.com/SamuelDugger/OnePieceCardGallery"
+            >
+              <div class="pc-image">
+                <img src="./images/OneDeck.PNG" alt="OneDeck" />
+                <span class="pc-num">06</span>
+                <span class="pc-preview-icon"><i class="fas fa-eye"></i></span>
+              </div>
+              <div class="pc-body">
+                <div class="pc-tags">
+                  <span class="proj-tag">PHP</span
+                  ><span class="proj-tag">MySQL</span
+                  ><span class="proj-tag">JavaScript</span>
+                </div>
+                <h5 class="pc-title">OneDeck</h5>
+                <p class="pc-desc">
+                  Full-stack deck-builder for the One Piece Card Game with
+                  advanced search, deck analysis, and market pricing.
+                </p>
+                <div class="pc-footer">
+                  <div style="display: flex; gap: 0.4rem">
+                    <a
+                      href="https://github.com/SamuelDugger/OnePieceCardGallery"
+                      class="pc-link"
+                      target="_blank"
+                      onclick="event.stopPropagation()"
+                      ><i class="fab fa-github"></i> GitHub</a
+                    >
+                  </div>
+                  <span class="pc-expand">click to expand →</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="container">
+        <p class="section-label">Where I've worked</p>
+        <h2 class="section-title">My <span>Experience</span></h2>
+        <div class="section-divider"></div>
+        <div class="row g-4">
+          <div class="col-lg-5 reveal d-none d-lg-block">
+            <img
+              src="./images/Choctaw-Nation-of-Oklahoma-2.jpg"
+              alt="Choctaw Nation of Oklahoma"
+              style="
+                width: 100%;
+                height: 100%;
+                max-height: 380px;
+                object-fit: cover;
+                border-radius: var(--radius-lg);
+                border: 1px solid var(--border);
+              "
+            />
+          </div>
+          <div class="col-lg-7 reveal">
+            <div class="exp-mobile-banner">
+              <img
+                src="./images/Choctaw-Nation-of-Oklahoma-2.jpg"
+                alt="Choctaw Nation of Oklahoma"
+              />
+              <div class="exp-banner-label">
+                <span>Current Employer</span>
+                <strong>Choctaw Nation of Oklahoma</strong>
+              </div>
+            </div>
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-card">
+                  <div class="timeline-meta">
+                    <span class="timeline-date">Apr 2022 – Feb 2024</span>
+                    <span class="timeline-org">Choctaw Nation of Oklahoma</span>
+                  </div>
+                  <h5 style="font-size: 1.05rem; margin-bottom: 0.4rem">
+                    Technical Support Engineer I
+                  </h5>
+                  <p style="font-size: 0.875rem; margin: 0">
+                    Provided enterprise-level technical support across Choctaw
+                    Nation operations, troubleshooting hardware, software, and
+                    network issues for internal stakeholders.
+                  </p>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-card">
+                  <div class="timeline-meta">
+                    <span class="timeline-date">Feb 2024 – Aug 2024</span>
+                    <span class="timeline-org">Choctaw Nation of Oklahoma</span>
+                  </div>
+                  <h5 style="font-size: 1.05rem; margin-bottom: 0.4rem">
+                    Technical Support Engineer II
+                  </h5>
+                  <p style="font-size: 0.875rem; margin: 0">
+                    Promoted to a senior support role with expanded
+                    responsibilities including mentoring junior staff, escalated
+                    incident resolution, and tooling improvements.
+                  </p>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div
+                  class="timeline-dot"
+                  style="
+                    background: var(--cyan);
+                    box-shadow: 0 0 10px rgba(34, 211, 238, 0.4);
+                  "
+                ></div>
+                <div
+                  class="timeline-card"
+                  style="border-color: rgba(34, 211, 238, 0.25)"
+                >
+                  <div class="timeline-meta">
+                    <span
+                      class="timeline-date"
+                      style="
+                        background: rgba(34, 211, 238, 0.12);
+                        border-color: rgba(34, 211, 238, 0.3);
+                        color: var(--cyan);
+                      "
+                      >Aug 2024 – Present</span
+                    >
+                    <span class="timeline-org">Choctaw Nation of Oklahoma</span>
+                  </div>
+                  <h5 style="font-size: 1.05rem; margin-bottom: 0.4rem">
+                    Fullstack Developer
+                  </h5>
+                  <p style="font-size: 0.875rem; margin: 0">
+                    Designing and building full-stack internal web applications,
+                    maintaining databases, and delivering scalable software
+                    solutions across the organization.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -540,8 +2145,9 @@
       <div
         class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
       >
-        <div class="modal-content bg-dark text-light border-secondary">
-          <div class="modal-header border-0">
+        <div class="modal-content">
+          <div class="modal-accent-bar"></div>
+          <div class="modal-header">
             <h5 class="modal-title" id="projectModalLabel"></h5>
             <button
               type="button"
@@ -553,19 +2159,54 @@
           <div class="modal-body">
             <img
               id="modalImage"
-              class="img-fluid rounded mb-3"
+              class="modal-screenshot"
               src=""
-              alt="Project image"
+              alt="Project screenshot"
             />
-            <div id="modalText"></div>
+            <div class="modal-content-area">
+              <div class="modal-meta-row">
+                <div class="modal-tags" id="modalTags"></div>
+                <span class="modal-status">Completed</span>
+              </div>
+              <div class="modal-divider"></div>
+              <p class="modal-section-label">About this project</p>
+              <p class="modal-description" id="modalDescription"></p>
+            </div>
+            <div class="modal-footer-bar" id="modalActions"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <footer class="text-center text-white py-3">
+    <footer>
       <div class="container">
-        <p class="mb-1">© 2025 Samuel Dugger. All rights reserved.</p>
+        <div
+          class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3"
+        >
+          <p>© 2025 Samuel Dugger. All rights reserved.</p>
+          <div class="d-flex gap-3">
+            <a
+              href="https://github.com/SamuelDugger"
+              target="_blank"
+              class="social-icon"
+              title="GitHub"
+              ><i class="fab fa-github"></i
+            ></a>
+            <a
+              href="https://www.linkedin.com/in/samuel-dugger-a369a5218"
+              target="_blank"
+              class="social-icon"
+              title="LinkedIn"
+              ><i class="fab fa-linkedin-in"></i
+            ></a>
+            <a
+              href="mailto:samueldugger98@gmail.com"
+              class="social-icon"
+              title="Email"
+              ><i class="fas fa-envelope"></i
+            ></a>
+          </div>
+        </div>
       </div>
     </footer>
 
@@ -601,11 +2242,10 @@
             }
           });
         },
-        { threshold: 0.1 }
+        { threshold: 0.1 },
       );
       revealElements.forEach((el) => observer.observe(el));
 
-      /* ----- Typing effect ----- */
       document.addEventListener("DOMContentLoaded", () => {
         const phrases = [
           "Front End Developer",
@@ -638,47 +2278,992 @@
         typeLoop();
       });
 
+      /* ----- Mobile nav ----- */
+      const hamburger = document.getElementById("hamburger");
+      const mobileMenu = document.getElementById("mobileMenu");
+      hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("open");
+        mobileMenu.classList.toggle("open");
+      });
+      document.querySelectorAll(".mobile-nav-link").forEach((link) => {
+        link.addEventListener("click", () => {
+          hamburger.classList.remove("open");
+          mobileMenu.classList.remove("open");
+        });
+      });
+
       document.addEventListener("DOMContentLoaded", () => {
         const modalEl = document.getElementById("projectModal");
         const modalTitle = document.getElementById("projectModalLabel");
         const modalImage = document.getElementById("modalImage");
-        const modalText = document.getElementById("modalText");
-        const cards = document.querySelectorAll(".project-card");
+        const modalTags = document.getElementById("modalTags");
+        const modalDescription = document.getElementById("modalDescription");
+        const modalActions = document.getElementById("modalActions");
 
-        cards.forEach((card) => {
+        document.querySelectorAll(".project-card").forEach((card) => {
           card.addEventListener("click", () => {
-            /* title */
-            const titleEl = card.querySelector("h5");
-            modalTitle.textContent = titleEl ? titleEl.textContent : "Details";
+            const title = card.dataset.title || "Project";
+            const desc = card.dataset.desc || "";
+            const tags = (card.dataset.tags || "")
+              .split(",")
+              .map((t) => t.trim())
+              .filter(Boolean);
+            const image = card.dataset.image || "";
+            const github = card.dataset.github || "";
+            const live = card.dataset.live || "";
 
-            const bg = card.style.backgroundImage;
-            const match = bg.match(/url\(["']?(.*?)["']?\)/);
-            if (match) {
-              modalImage.src = match[1];
-              modalImage.alt = modalTitle.textContent;
+            modalTitle.textContent = title;
+
+            if (image) {
+              modalImage.src = image;
+              modalImage.alt = title;
               modalImage.style.display = "block";
             } else {
               modalImage.style.display = "none";
             }
 
-            const contentEl = card.querySelector(".content");
-            if (contentEl) {
-              const clone = contentEl.cloneNode(true);
-              const h5 = clone.querySelector("h5");
-              if (h5) h5.remove();
-              modalText.innerHTML = clone.innerHTML.trim();
-            } else {
-              modalText.innerHTML = "";
-            }
+            modalTags.innerHTML = tags
+              .map((t) => `<span class="proj-tag">${t}</span>`)
+              .join("");
 
-            const bsModal = bootstrap.Modal.getOrCreateInstance(modalEl);
-            bsModal.show();
+            modalDescription.textContent = desc;
+
+            let actions = "";
+            if (github)
+              actions += `<a href="${github}" target="_blank" class="modal-btn modal-btn-primary"><i class="fab fa-github"></i> View on GitHub</a>`;
+            if (live)
+              actions += `<a href="${live}"   target="_blank" class="modal-btn modal-btn-outline"><i class="fas fa-arrow-up-right-from-square"></i> Live Site</a>`;
+            modalActions.innerHTML = actions;
+
+            bootstrap.Modal.getOrCreateInstance(modalEl).show();
           });
         });
       });
+      /* Interactive terminal — maps typed commands to HTML output appended into #termOutput. */
+      (() => {
+        const output = document.getElementById("termOutput");
+        const input = document.getElementById("termInput");
+        if (!output || !input) return;
+
+        const PROMPT = "samuel@portfolio:~$";
+        let cmdHistory = [],
+          histIdx = -1,
+          animating = false;
+        const startTime = Date.now();
+
+        const ALL_CMDS = [
+          "help",
+          "about",
+          "skills",
+          "projects",
+          "experience",
+          "education",
+          "contact",
+          "social",
+          "whoami",
+          "date",
+          "banner",
+          "clear",
+          "echo",
+          "ls",
+          "pwd",
+          "sudo",
+          "vim",
+          "nano",
+          "emacs",
+          "exit",
+          "neofetch",
+          "hack",
+          "matrix",
+          "joke",
+          "flip",
+          "roll",
+          "calc",
+          "history",
+          "uptime",
+          "weather",
+          "color",
+          "gui",
+        ];
+
+        const DATA = {
+          skills: [
+            {
+              group: "Frontend",
+              items: ["HTML5", "CSS3", "JavaScript", "Bootstrap"],
+            },
+            {
+              group: "Backend",
+              items: ["PHP", "C#", "Python", "MySQL", "Apache"],
+            },
+            { group: "DevOps", items: ["Git", "Docker", "PowerShell"] },
+            { group: "Systems", items: ["C", "WinForms", "Windows Services"] },
+            { group: "Game Dev", items: ["Unity", "Godot", "C#"] },
+          ],
+          projects: [
+            {
+              name: "Haileyville Church Website",
+              stack: "HTML · CSS · JS",
+              url: "https://samueldugger.github.io/HaileyvilleChristianWebsite/",
+            },
+            {
+              name: "Fallout 4 Build Planner",
+              stack: "JavaScript",
+              url: "https://samueldugger.github.io/Fallout4BuildPlanner/",
+            },
+            {
+              name: "GASC",
+              stack: "C# · WinForms · Services",
+              url: "https://github.com/SamuelDugger/GASC",
+            },
+            {
+              name: "Old Portfolio",
+              stack: "HTML · CSS · Bootstrap",
+              url: "https://samueldugger.github.io/PortfolioWebsite/",
+            },
+            {
+              name: "JumpShoot",
+              stack: "Unity · C#",
+              url: "https://github.com/SamuelDugger/JumpShoot",
+            },
+            {
+              name: "OneDeck",
+              stack: "PHP · MySQL · JS",
+              url: "https://github.com/SamuelDugger/OnePieceCardGallery",
+            },
+          ],
+          experience: [
+            {
+              role: "Technical Support Engineer I",
+              org: "Choctaw Nation of Oklahoma",
+              period: "Apr 2022 – Feb 2024",
+            },
+            {
+              role: "Technical Support Engineer II",
+              org: "Choctaw Nation of Oklahoma",
+              period: "Feb 2024 – Aug 2024",
+            },
+            {
+              role: "Fullstack Developer",
+              org: "Choctaw Nation of Oklahoma",
+              period: "Aug 2024 – Present",
+            },
+          ],
+          education: [
+            {
+              degree: "AAS in Information Technology",
+              school: "OSU Institute of Technology",
+              period: "2019 – 2021",
+            },
+            {
+              degree: "BT in Information Technologies, Software Dev",
+              school: "OSU Institute of Technology",
+              period: "2021 – 2023",
+            },
+          ],
+          jokes: [
+            [
+              "Why do programmers prefer dark mode?",
+              "Because light attracts bugs.",
+            ],
+            [
+              "How many programmers does it take to change a light bulb?",
+              "None — that's a hardware problem.",
+            ],
+            [
+              "A SQL query walks into a bar, walks up to two tables and asks...",
+              "Can I join you?",
+            ],
+            [
+              "Why did the developer go broke?",
+              "Because he used up all his cache.",
+            ],
+            ["What's a programmer's favorite hangout spot?", "The Foo Bar."],
+            ["Why do Java developers wear glasses?", "Because they don't C#."],
+            [
+              "There are 10 types of people in the world:",
+              "Those who understand binary, and those who don't.",
+            ],
+            [
+              "A programmer's wife tells him: 'Go to the store, get a gallon of milk, and if they have eggs, get a dozen.'",
+              "He comes home with 12 gallons of milk. 'They had eggs.'",
+            ],
+          ],
+          weather: [
+            "Partly cloudy, 74°F / 23°C",
+            "Sunny with a chance of merge conflicts, 81°F / 27°C",
+            "Clear skies — good day to push to production, 68°F / 20°C",
+            "Light drizzle, perfect for debugging, 61°F / 16°C",
+            "Thunderstorms — definitely do NOT deploy today, 55°F / 13°C",
+          ],
+        };
+
+        const BANNER = [
+          `<span class="term-out-accent"> _____                           _ </span>`,
+          `<span class="term-out-accent">/ ____|                         | |</span>`,
+          `<span class="term-out-accent">| (___   __ _ _ __ ___  _   _  ___| |</span>`,
+          `<span class="term-out-accent"> \\___ \\ / _\` | '_ \` _ \\| | | |/ _ \\ |</span>`,
+          `<span class="term-out-accent"> ____) | (_| | | | | | | |_| |  __/ |</span>`,
+          `<span class="term-out-accent">|_____/ \\__,_|_| |_| |_|\\__,_|\\___|_|</span>`,
+          ``,
+          `<span class="term-out-cyan">  Samuel Dugger</span> <span class="term-out-muted">// Fullstack Developer</span>`,
+          `<span class="term-out-muted">  OSU IT Alumni · Choctaw Nation of Oklahoma</span>`,
+          ``,
+          `<span class="term-out-muted">  Type </span><span class="term-out-cyan">help</span><span class="term-out-muted"> to see available commands.</span>`,
+        ];
+
+        function line(html, cls = "term-out-default") {
+          const d = document.createElement("div");
+          d.className = `term-line ${cls}`;
+          d.innerHTML = html;
+          output.appendChild(d);
+          return d;
+        }
+        function spacer() {
+          const d = document.createElement("div");
+          d.className = "term-spacer";
+          output.appendChild(d);
+        }
+        function echoCmd(cmd) {
+          line(
+            `<span class="term-prompt-echo">${PROMPT}&nbsp;</span><span class="term-cmd-text">${esc(cmd)}</span>`,
+          );
+        }
+        function esc(s) {
+          return String(s)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
+        }
+        function scroll() {
+          output.scrollTop = output.scrollHeight;
+        }
+
+        /* Animated line — types text character by character */
+        function animLine(html, delay = 0, cls = "term-out-default") {
+          return new Promise((res) =>
+            setTimeout(() => {
+              line(html, cls);
+              scroll();
+              res();
+            }, delay),
+          );
+        }
+
+        function boot() {
+          BANNER.forEach((b) => (b === `` ? spacer() : line(b, "")));
+          spacer();
+          scroll();
+        }
+
+        async function runCmd(raw) {
+          const trimmed = raw.trim();
+          if (!trimmed) return;
+          cmdHistory.unshift(trimmed);
+          histIdx = -1;
+          echoCmd(trimmed);
+
+          const [cmd, ...args] = trimmed.split(/\s+/);
+          const arg = args.join(" ");
+          const c = cmd.toLowerCase();
+
+          /* Block new commands while hack/matrix animations are running. */
+          if (animating && c !== "clear") {
+            spacer();
+            line(
+              `  <span class="term-out-yellow">An animation is running. Type <span class="term-out-cyan">clear</span> to reset.</span>`,
+            );
+            spacer();
+            scroll();
+            return;
+          }
+
+          switch (c) {
+            case "help":
+              spacer();
+              line(`<span class="term-out-highlight">Commands</span>`);
+              spacer();
+              const cols = [
+                ["about", "Who I am"],
+                ["skills", "Tech stack"],
+                ["projects", "Things I've built"],
+                ["experience", "Work history"],
+                ["education", "Academic background"],
+                ["contact", "How to reach me"],
+                ["social", "GitHub & LinkedIn"],
+                ["whoami", "Current user info"],
+                ["neofetch", "System info card"],
+                ["uptime", "Session uptime"],
+                ["date", "Current date & time"],
+                ["weather", "Local forecast"],
+                ["ls / pwd", "Filesystem fun"],
+                ["echo [text]", "Print text"],
+                ["calc [expr]", "Math calculator"],
+                ["flip", "Flip a coin"],
+                ["roll [NdN]", "Roll dice  e.g. roll 2d6"],
+                ["joke", "Random dev joke"],
+                ["hack", "Dramatic hacking sequence (not real)"],
+                ["matrix", "Matrix rain"],
+                ["color [hex]", "Preview a hex color"],
+                ["gui", "...you sure about that?"],
+                ["banner", "Print the banner"],
+                ["history", "Command history"],
+                ["clear", "Clear terminal"],
+              ];
+              cols.forEach(([k, v]) =>
+                line(
+                  `  <span class="term-out-cyan">${k.padEnd(16)}</span><span class="term-out-muted">${v}</span>`,
+                ),
+              );
+              spacer();
+              break;
+
+            case "about":
+              spacer();
+              line(
+                `<span class="term-out-highlight">Samuel Dugger</span>  <span class="term-out-muted">// Fullstack Developer</span>`,
+              );
+              spacer();
+              line(
+                `<span class="term-out-default">  Fullstack developer with roots in IT support, currently</span>`,
+              );
+              line(
+                `<span class="term-out-default">  building internal web apps at </span><span class="term-out-cyan">Choctaw Nation of Oklahoma</span><span class="term-out-default">.</span>`,
+              );
+              line(
+                `<span class="term-out-default">  Holds a BT in Information Technologies (Software Dev)</span>`,
+              );
+              line(
+                `<span class="term-out-default">  from OSU Institute of Technology.</span>`,
+              );
+              spacer();
+              line(
+                `<span class="term-out-muted">  Interests: clean UIs · robust APIs · game dev · coffee</span>`,
+              );
+              spacer();
+              break;
+
+            case "skills":
+              spacer();
+              line(`<span class="term-out-highlight">Tech Stack</span>`);
+              spacer();
+              DATA.skills.forEach(({ group, items }) =>
+                line(
+                  `  <span class="term-out-yellow">${group.padEnd(12)}</span><span class="term-out-default">${items.join("  ·  ")}</span>`,
+                ),
+              );
+              spacer();
+              break;
+
+            case "projects":
+              spacer();
+              line(
+                `<span class="term-out-highlight">Projects  <span class="term-out-muted">(${DATA.projects.length} total)</span></span>`,
+              );
+              spacer();
+              DATA.projects.forEach((p, i) => {
+                line(
+                  `  <span class="term-out-cyan">${String(i + 1).padEnd(3)}</span><span class="term-out-highlight">${p.name}</span>`,
+                );
+                line(
+                  `     <span class="term-out-muted">stack </span><span class="term-out-default">${p.stack}</span>`,
+                );
+                line(
+                  `     <span class="term-out-muted">url   </span><a class="term-out-link" href="${p.url}" target="_blank">${p.url}</a>`,
+                );
+                spacer();
+              });
+              break;
+
+            case "experience":
+              spacer();
+              line(`<span class="term-out-highlight">Work History</span>`);
+              spacer();
+              DATA.experience.forEach((e, i) => {
+                const latest = i === DATA.experience.length - 1;
+                line(
+                  `  <span class="${latest ? "term-out-green" : "term-out-cyan"}">${e.role}</span>`,
+                );
+                line(
+                  `  <span class="term-out-muted">  ${e.org}  ·  ${e.period}</span>`,
+                );
+                spacer();
+              });
+              break;
+
+            case "education":
+              spacer();
+              line(`<span class="term-out-highlight">Education</span>`);
+              spacer();
+              DATA.education.forEach((e) => {
+                line(`  <span class="term-out-cyan">${e.degree}</span>`);
+                line(
+                  `  <span class="term-out-muted">  ${e.school}  ·  ${e.period}</span>`,
+                );
+                spacer();
+              });
+              break;
+
+            case "contact":
+              spacer();
+              line(`<span class="term-out-highlight">Contact</span>`);
+              spacer();
+              line(
+                `  <span class="term-out-muted">email   </span><a class="term-out-link" href="mailto:samueldugger98@gmail.com">samueldugger98@gmail.com</a>`,
+              );
+              line(
+                `  <span class="term-out-muted">github  </span><a class="term-out-link" href="https://github.com/SamuelDugger" target="_blank">github.com/SamuelDugger</a>`,
+              );
+              line(
+                `  <span class="term-out-muted">linkedin</span><span class="term-out-muted"> </span><a class="term-out-link" href="https://www.linkedin.com/in/samuel-dugger-a369a5218" target="_blank">linkedin.com/in/samuel-dugger</a>`,
+              );
+              spacer();
+              break;
+
+            case "social":
+              spacer();
+              line(
+                `  <span class="term-out-accent">GitHub  </span><a class="term-out-link" href="https://github.com/SamuelDugger" target="_blank">github.com/SamuelDugger</a>`,
+              );
+              line(
+                `  <span class="term-out-accent">LinkedIn</span><span class="term-out-muted"> </span><a class="term-out-link" href="https://www.linkedin.com/in/samuel-dugger-a369a5218" target="_blank">linkedin.com/in/samuel-dugger</a>`,
+              );
+              spacer();
+              break;
+
+            case "whoami":
+              spacer();
+              line(`  <span class="term-out-green">samuel</span>`);
+              spacer();
+              line(
+                `  <span class="term-out-muted">uid=1000(samuel) gid=1000(samuel)</span>`,
+              );
+              line(
+                `  <span class="term-out-muted">groups=developer,fullstack,coffee-addict</span>`,
+              );
+              spacer();
+              break;
+
+            case "neofetch": {
+              const ua = navigator.userAgent;
+              const br = ua.includes("Chrome")
+                ? "Chrome"
+                : ua.includes("Firefox")
+                  ? "Firefox"
+                  : ua.includes("Safari")
+                    ? "Safari"
+                    : "Unknown";
+              const os = ua.includes("Win")
+                ? "Windows"
+                : ua.includes("Mac")
+                  ? "macOS"
+                  : ua.includes("Linux")
+                    ? "Linux"
+                    : "Unknown";
+              const up = Math.floor((Date.now() - startTime) / 1000);
+              const upStr =
+                up < 60
+                  ? `${up}s`
+                  : up < 3600
+                    ? `${Math.floor(up / 60)}m ${up % 60}s`
+                    : `${Math.floor(up / 3600)}h ${Math.floor((up % 3600) / 60)}m`;
+              spacer();
+              const rows = [
+                [
+                  `<span class="term-out-cyan">samuel</span><span class="term-out-muted">@</span><span class="term-out-accent">portfolio</span>`,
+                  ``,
+                ],
+                [
+                  `<span class="term-out-muted">─────────────────────</span>`,
+                  ``,
+                ],
+                [`<span class="term-out-cyan">OS</span>`, os],
+                [`<span class="term-out-cyan">Browser</span>`, br],
+                [
+                  `<span class="term-out-cyan">Shell</span>`,
+                  `portfolio-bash 1.0.0`,
+                ],
+                [`<span class="term-out-cyan">Uptime</span>`, upStr],
+                [
+                  `<span class="term-out-cyan">Theme</span>`,
+                  `Dark Navy + Indigo`,
+                ],
+                [`<span class="term-out-cyan">Font</span>`, `JetBrains Mono`],
+                [
+                  `<span class="term-out-cyan">Resolution</span>`,
+                  `${window.innerWidth}x${window.innerHeight}`,
+                ],
+                [
+                  `<span class="term-out-cyan">CPU</span>`,
+                  `${navigator.hardwareConcurrency || "?"} logical cores`,
+                ],
+                [``],
+                [
+                  `<span style="background:#6366f1;color:#6366f1">███</span><span style="background:#818cf8;color:#818cf8">███</span><span style="background:#22d3ee;color:#22d3ee">███</span><span style="background:#34d399;color:#34d399">███</span><span style="background:#fbbf24;color:#fbbf24">███</span><span style="background:#f87171;color:#f87171">███</span>`,
+                  ``,
+                ],
+              ];
+              rows.forEach(([k, v]) => {
+                if (!k) {
+                  spacer();
+                  return;
+                }
+                line(
+                  v
+                    ? `  ${k}<span class="term-out-muted">: </span><span class="term-out-default">${esc(v)}</span>`
+                    : `  ${k}`,
+                );
+              });
+              spacer();
+              break;
+            }
+
+            case "uptime": {
+              const s = Math.floor((Date.now() - startTime) / 1000);
+              const h = Math.floor(s / 3600);
+              const m = Math.floor((s % 3600) / 60);
+              const sc = s % 60;
+              spacer();
+              line(
+                `  <span class="term-out-cyan">Session uptime: </span><span class="term-out-green">${h ? h + "h " : ""}${m ? m + "m " : ""}${sc}s</span>`,
+              );
+              spacer();
+              break;
+            }
+
+            case "date":
+              spacer();
+              line(
+                `  <span class="term-out-cyan">${new Date().toString()}</span>`,
+              );
+              spacer();
+              break;
+
+            case "weather": {
+              const loc = arg.trim() || "McAlester, OK";
+              const w =
+                DATA.weather[Math.floor(Math.random() * DATA.weather.length)];
+              spacer();
+              line(
+                `  <span class="term-out-muted">Fetching weather for </span><span class="term-out-cyan">${esc(loc)}</span><span class="term-out-muted">...</span>`,
+              );
+              setTimeout(() => {
+                line(`  <span class="term-out-yellow">☁  ${w}</span>`);
+                spacer();
+                scroll();
+              }, 600);
+              break;
+            }
+
+            case "ls":
+              spacer();
+              [
+                "about/",
+                "skills/",
+                "projects/",
+                "experience/",
+                "education/",
+                "contact.txt",
+                "resume.pdf",
+              ].forEach((f) => {
+                line(
+                  `  <span class="${f.endsWith("/") ? "term-out-accent" : "term-out-default"}">${f}</span>`,
+                );
+              });
+              spacer();
+              break;
+
+            case "pwd":
+              spacer();
+              line(
+                `  <span class="term-out-default">/home/samuel/portfolio</span>`,
+              );
+              spacer();
+              break;
+
+            case "history":
+              spacer();
+              if (!cmdHistory.length) {
+                line(
+                  `  <span class="term-out-muted">No commands in history yet.</span>`,
+                );
+              } else {
+                [...cmdHistory]
+                  .reverse()
+                  .forEach((h, i) =>
+                    line(
+                      `  <span class="term-out-muted">${String(i + 1).padStart(3)}</span>  <span class="term-out-default">${esc(h)}</span>`,
+                    ),
+                  );
+              }
+              spacer();
+              break;
+
+            case "echo":
+              spacer();
+              line(`  <span class="term-out-default">${esc(arg)}</span>`);
+              spacer();
+              break;
+
+            case "calc": {
+              if (!arg) {
+                spacer();
+                line(
+                  `  <span class="term-out-muted">Usage: calc [expression]  e.g. calc 6 * 7</span>`,
+                );
+                spacer();
+                break;
+              }
+              /* Strip everything except numbers and math operators before eval. */
+              const safeExpr = arg.replace(/[^0-9+\-*/.()% ]/g, "");
+              spacer();
+              try {
+                const result = Function(`"use strict"; return (${safeExpr})`)();
+                if (!isFinite(result)) throw new Error("Not finite");
+                line(
+                  `  <span class="term-out-muted">${esc(arg)} = </span><span class="term-out-green">${result}</span>`,
+                );
+              } catch {
+                line(
+                  `  <span class="term-out-red">Could not evaluate: ${esc(arg)}</span>`,
+                );
+              }
+              spacer();
+              break;
+            }
+
+            case "flip":
+              spacer();
+              line(`  <span class="term-out-muted">Flipping coin...</span>`);
+              setTimeout(() => {
+                const result = Math.random() < 0.5 ? "HEADS 🪙" : "TAILS 🪙";
+                line(`  <span class="term-out-yellow">${result}</span>`);
+                spacer();
+                scroll();
+              }, 500);
+              break;
+
+            case "roll": {
+              const match = (arg || "1d6").match(/^(\d+)d(\d+)$/i);
+              spacer();
+              if (!match) {
+                line(
+                  `  <span class="term-out-muted">Usage: roll [NdN]  e.g. roll 2d6</span>`,
+                );
+              } else {
+                const num = Math.min(parseInt(match[1]), 20);
+                const sides = Math.min(parseInt(match[2]), 100);
+                const rolls = Array.from(
+                  { length: num },
+                  () => Math.floor(Math.random() * sides) + 1,
+                );
+                const total = rolls.reduce((a, b) => a + b, 0);
+                line(
+                  `  <span class="term-out-muted">Rolling ${num}d${sides}...</span>`,
+                );
+                setTimeout(() => {
+                  line(
+                    `  <span class="term-out-default">Rolls: </span><span class="term-out-cyan">${rolls.join("  ")}</span>`,
+                  );
+                  if (num > 1)
+                    line(
+                      `  <span class="term-out-default">Total: </span><span class="term-out-green">${total}</span>`,
+                    );
+                  spacer();
+                  scroll();
+                }, 400);
+              }
+              spacer();
+              break;
+            }
+
+            case "joke": {
+              const [setup, punchline] =
+                DATA.jokes[Math.floor(Math.random() * DATA.jokes.length)];
+              spacer();
+              line(`  <span class="term-out-default">${setup}</span>`);
+              setTimeout(() => {
+                line(`  <span class="term-out-yellow">${punchline}</span>`);
+                spacer();
+                scroll();
+              }, 1200);
+              break;
+            }
+
+            case "color": {
+              const hex = (arg || "").trim();
+              const valid = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.test(hex);
+              spacer();
+              if (!valid) {
+                line(
+                  `  <span class="term-out-muted">Usage: color [hex]  e.g. color #6366f1</span>`,
+                );
+              } else {
+                const h = hex.startsWith("#") ? hex : `#${hex}`;
+                line(
+                  `  <span style="background:${h};color:${h};border-radius:3px">████████</span>  <span class="term-out-cyan">${h}</span>`,
+                );
+              }
+              spacer();
+              break;
+            }
+
+            case "hack": {
+              animating = true;
+              input.disabled = true;
+              spacer();
+              const hackLines = [
+                [
+                  `<span class="term-out-green">Initializing breach protocol...</span>`,
+                  200,
+                ],
+                [
+                  `<span class="term-out-muted">Scanning network topology...</span>`,
+                  400,
+                ],
+                [
+                  `<span class="term-out-green">Found 3 open ports: 22, 80, 443</span>`,
+                  600,
+                ],
+                [
+                  `<span class="term-out-muted">Injecting payload into /dev/null...</span>`,
+                  900,
+                ],
+                [
+                  `<span class="term-out-yellow">WARNING: Firewall detected</span>`,
+                  1200,
+                ],
+                [
+                  `<span class="term-out-green">Bypassing firewall... <span class="term-out-muted">[██████████] 100%</span></span>`,
+                  1700,
+                ],
+                [
+                  `<span class="term-out-muted">Decrypting SHA-256 hash table...</span>`,
+                  2100,
+                ],
+                [
+                  `<span class="term-out-green">Access granted to mainframe</span>`,
+                  2700,
+                ],
+                [
+                  `<span class="term-out-muted">Exfiltrating data...</span>`,
+                  3000,
+                ],
+                [
+                  `<span class="term-out-red">CRITICAL: Intrusion detected by NSA</span>`,
+                  3600,
+                ],
+                [
+                  `<span class="term-out-red">Trace route active — covering tracks...</span>`,
+                  4000,
+                ],
+                [
+                  `<span class="term-out-green">Tunneling through 14 proxies...</span>`,
+                  4500,
+                ],
+                [
+                  `<span class="term-out-yellow">██████████████████████████ 100%</span>`,
+                  5200,
+                ],
+                [
+                  `<span class="term-out-green">Done. World domination: </span><span class="term-out-cyan">scheduled</span>`,
+                  5600,
+                ],
+                [
+                  `<span class="term-out-muted">Just kidding. This is a portfolio website.</span>`,
+                  6200,
+                ],
+              ];
+              let p = Promise.resolve();
+              hackLines.forEach(([html, delay]) => {
+                p = p.then(() => animLine(`  ${html}`, delay));
+              });
+              p.then(() => {
+                spacer();
+                scroll();
+                animating = false;
+                input.disabled = false;
+                input.focus();
+              });
+              break;
+            }
+
+            case "matrix": {
+              animating = true;
+              input.disabled = true;
+              const chars =
+                "ｦｧｨｩｪｫｬｭｮｯｰアイウエオカキクケコサシスセソタチツテトナニヌネノ0123456789ABCDEF";
+              const cols = 60;
+              spacer();
+              const renderRow = () => {
+                let row = "  ";
+                for (let i = 0; i < cols; i++) {
+                  const bright = Math.random() > 0.85;
+                  const ch = chars[Math.floor(Math.random() * chars.length)];
+                  row += bright
+                    ? `<span style="color:#fff">${ch}</span>`
+                    : `<span style="color:#${Math.random() > 0.5 ? "00ff41" : "005500"}">${ch}</span>`;
+                }
+                line(row, "");
+              };
+              let count = 0;
+              const maxRows = 18;
+              const interval = setInterval(() => {
+                renderRow();
+                scroll();
+                if (++count >= maxRows) {
+                  clearInterval(interval);
+                  setTimeout(() => {
+                    spacer();
+                    line(
+                      `  <span class="term-out-green">Wake up, Neo...</span>`,
+                    );
+                    spacer();
+                    scroll();
+                    animating = false;
+                    input.disabled = false;
+                    input.focus();
+                  }, 300);
+                }
+              }, 80);
+              break;
+            }
+
+            case "gui":
+              spacer();
+              line(
+                `  <span class="term-out-yellow">Switching to GUI mode...</span>`,
+              );
+              setTimeout(() => {
+                line(
+                  `  <span class="term-out-red">Error: GUI not found.</span>`,
+                );
+                line(
+                  `  <span class="term-out-muted">Real developers use the terminal.</span>`,
+                );
+                spacer();
+                scroll();
+              }, 700);
+              break;
+
+            case "sudo":
+              spacer();
+              line(
+                `  <span class="term-out-red">[sudo] password for samuel: </span>`,
+              );
+              setTimeout(() => {
+                line(`  <span class="term-out-red">Sorry, try again.</span>`);
+                line(`  <span class="term-out-red">Sorry, try again.</span>`);
+                line(
+                  `  <span class="term-out-red">sudo: 3 incorrect password attempts</span>`,
+                );
+                spacer();
+                scroll();
+              }, 900);
+              break;
+
+            case "vim":
+            case "nano":
+            case "emacs":
+              spacer();
+              line(
+                `  <span class="term-out-yellow">Opening ${esc(c)}...</span>`,
+              );
+              setTimeout(() => {
+                if (c === "vim") {
+                  line(
+                    `  <span class="term-out-muted">Tip: to exit vim, type  </span><span class="term-out-cyan">:wq</span><span class="term-out-muted">  (or just close the tab, we won't judge)</span>`,
+                  );
+                } else {
+                  line(
+                    `  <span class="term-out-red">Error: ${esc(c)} requires a real terminal. This is a browser.</span>`,
+                  );
+                }
+                spacer();
+                scroll();
+              }, 600);
+              break;
+
+            case "exit":
+              spacer();
+              line(`  <span class="term-out-muted">logout</span>`);
+              line(
+                `  <span class="term-out-muted">There is no escape. You're already here.</span>`,
+              );
+              spacer();
+              break;
+
+            case "banner":
+              spacer();
+              BANNER.forEach((b) => (b === `` ? spacer() : line(b, "")));
+              spacer();
+              break;
+
+            case "clear":
+              output.innerHTML = "";
+              return;
+
+            default:
+              spacer();
+              line(
+                `  <span class="term-out-red">command not found: </span><span class="term-out-highlight">${esc(c)}</span>`,
+              );
+              line(
+                `  <span class="term-out-muted">Type </span><span class="term-out-cyan">help</span><span class="term-out-muted"> for available commands.</span>`,
+              );
+              spacer();
+          }
+
+          scroll();
+        }
+
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            const val = input.value;
+            input.value = "";
+            runCmd(val);
+          } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            if (histIdx < cmdHistory.length - 1) histIdx++;
+            input.value = cmdHistory[histIdx] ?? "";
+          } else if (e.key === "ArrowDown") {
+            e.preventDefault();
+            if (histIdx > 0) {
+              histIdx--;
+              input.value = cmdHistory[histIdx];
+            } else {
+              histIdx = -1;
+              input.value = "";
+            }
+          } else if (e.key === "Tab") {
+            e.preventDefault();
+            const partial = input.value.trim().toLowerCase();
+            if (!partial) return;
+            const matches = ALL_CMDS.filter((c) => c.startsWith(partial));
+            if (matches.length === 1) {
+              input.value = matches[0];
+            } else if (matches.length > 1) {
+              echoCmd(input.value);
+              line(
+                `  <span class="term-out-muted">${matches.join("   ")}</span>`,
+              );
+              spacer();
+              scroll();
+            }
+          } else if (e.key === "l" && e.ctrlKey) {
+            e.preventDefault();
+            output.innerHTML = "";
+          }
+        });
+
+        document
+          .querySelector(".terminal-window")
+          ?.addEventListener("click", () => input.focus());
+
+        boot();
+      })();
     </script>
   </body>
 </html>
-
 
 
